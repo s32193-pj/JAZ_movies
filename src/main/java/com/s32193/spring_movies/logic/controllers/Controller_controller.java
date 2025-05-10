@@ -2,11 +2,8 @@ package com.s32193.spring_movies.logic.controllers;
 
 import com.s32193.spring_movies.logic.services.Mobie_app_service;
 import com.s32193.spring_movies.movies.Mobie;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +23,22 @@ public class Controller_controller {
 
     @GetMapping("movie/{id}")
     public ResponseEntity<Mobie> get_by_id(@PathVariable int id) {
-      return ResponseEntity.ok(mobie_app_service.getMobies_list().get(id));
+      return ResponseEntity.ok(mobie_app_service.get_by_id(id).getBody());
     }
 
+    @PostMapping("movie/add_movie")
+    public ResponseEntity<Mobie> add_movie(@RequestBody Mobie mobie) {
+        return mobie_app_service.add_mobie(mobie);
+    }
+
+    @PutMapping("movie/{id}")
+    public ResponseEntity<Mobie> update_mobie(@RequestBody Mobie mobie, @PathVariable int id) {
+        return ResponseEntity.ok(mobie_app_service.update_mobie(mobie, id).getBody());
+    }
+
+    @DeleteMapping("movie/delete/{id}")
+    public ResponseEntity<Mobie> delete_mobie(@PathVariable int id) {
+        return ResponseEntity.ok(mobie_app_service.remove_mobie(id).getBody());
+    }
 
 }
