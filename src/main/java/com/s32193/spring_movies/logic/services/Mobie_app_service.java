@@ -1,6 +1,8 @@
 package com.s32193.spring_movies.logic.services;
 
+import com.s32193.spring_movies.logic.Repositories.Mobie_Repository;
 import com.s32193.spring_movies.movies.Mobie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,16 +13,20 @@ import java.util.List;
 @Service
 public class Mobie_app_service {
 
-    List<Mobie> mobies_list = new ArrayList<>();
+    Mobie_Repository mobie_repository;
+
+    public Mobie_app_service(Mobie_Repository mobie_repository) {
+        this.mobie_repository = mobie_repository;
+    }
 
     public ResponseEntity<Mobie> add_mobie(Mobie mobie){
-        mobies_list.add(mobie);
+        mobie_repository.save(mobie);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     public ResponseEntity<Mobie> remove_mobie(int id){
-        for (Mobie mobie : mobies_list) {
+        for (Mobie mobie : mobie_repository.findAll()) {
             if (mobie.getId() == id) {
-                mobies_list.remove(mobie);
+                mobie_repository.delete(mobie);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
@@ -28,7 +34,7 @@ public class Mobie_app_service {
     }
 
     public ResponseEntity<Mobie> get_by_id(int id) {
-        for (Mobie mobie : mobies_list) {
+        for (Mobie mobie : mobie_repository.findAll()) {
             if (mobie.getId() == id) {
                 return new ResponseEntity<>(mobie, HttpStatus.OK);
             }
@@ -38,16 +44,12 @@ public class Mobie_app_service {
 
 
     public List<Mobie> getMobies_list() {
-        return mobies_list;
+        return mobie_repository.findAll();
     }
 
-
-    public void setMobies_list(List<Mobie> mobies_list) {
-        this.mobies_list = mobies_list;
-    }
 
     public ResponseEntity<Mobie> update_mobie(Mobie mobie, int id) {
-        for (Mobie mobie1 : mobies_list) {
+        for (Mobie mobie1 : mobie_repository.findAll()) {
             if (mobie1.equals(mobie)) {
                 mobie1.setId(id);
                 return new ResponseEntity<>(HttpStatus.OK);
