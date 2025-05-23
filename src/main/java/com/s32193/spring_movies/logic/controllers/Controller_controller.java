@@ -41,4 +41,9 @@ public class Controller_controller {
         return ResponseEntity.ok(mobie_app_service.remove_mobie(id).getBody());
     }
 
+    @GetMapping("movie/update_avaiable/{id}")
+    public ResponseEntity<Mobie> make_avaiable(@PathVariable int id) {
+        return ResponseEntity.ok(mobie_app_service.update_avaiable(id).getBody());
+    }
+
 }
