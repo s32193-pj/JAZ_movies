@@ -19,6 +19,4 @@ public interface Mobie_Repository extends JpaRepository<Mobie, Integer>{
     @Query(value = "UPDATE mobie SET is_available = TRUE WHERE id= :id", nativeQuery = true)
     int updateAvailable(int id);
 
-
-
 }

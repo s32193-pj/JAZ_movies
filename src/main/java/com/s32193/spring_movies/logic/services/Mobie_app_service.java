@@ -2,12 +2,11 @@ package com.s32193.spring_movies.logic.services;
 
 import com.s32193.spring_movies.logic.Repositories.Mobie_Repository;
 import com.s32193.spring_movies.movies.Mobie;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +67,29 @@ public class Mobie_app_service {
         if (mobie_repository.updateAvailable(id) == 1) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<Mobie> rent_mobie(int id) {
+        Optional<Mobie> mobie = mobie_repository.findById(id);
+        if (mobie.isPresent()) {
+            if (mobie.get().isAvailable()){
+                mobie.get().setAvailable(false);
+                return new ResponseEntity<>(mobie_repository.save(mobie.get()), HttpStatus.OK);
+            }
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<Mobie> return_mobie(int id) {
+        Optional<Mobie> mobie = mobie_repository.findById(id);
+        if (mobie.isPresent()) {
+            mobie.get().setAvailable(true);
+            return new ResponseEntity<>(mobie_repository.save(mobie.get()), HttpStatus.OK);
+        }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

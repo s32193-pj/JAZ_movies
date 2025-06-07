@@ -46,4 +46,13 @@ public class Controller_controller {
         return ResponseEntity.ok(mobie_app_service.update_avaiable(id).getBody());
     }
 
+    @GetMapping("movie/rent/{id}")
+    public ResponseEntity<Mobie> make_rent(@PathVariable int id) {
+        return ResponseEntity.ok(mobie_app_service.rent_mobie(id).getBody());
+    }
+    @GetMapping("movie/return/{id}")
+    public ResponseEntity<Mobie> make_return(@PathVariable int id) {
+        return ResponseEntity.ok(mobie_app_service.return_mobie(id).getBody());
+    }
+
 }

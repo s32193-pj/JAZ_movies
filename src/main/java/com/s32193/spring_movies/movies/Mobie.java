@@ -8,6 +8,16 @@ public class Mobie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private boolean available;
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     private String name;
 
     @Enumerated(EnumType.STRING)
